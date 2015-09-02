@@ -3,11 +3,33 @@ require 'colorize'
 class MatchGame
 
 	def initialize(size)
-		@size = size
-		@grid = grid_gem(size)
-		@layer = size.times.inject([]) {|ai| ai << Array.new(size,"*")}
-		@inputs_pool = size.times.reduce([]) {|a,i|a<<i}
+		
+		#refactor
+		size_s = size.times
+		size_d = (size*size).times
 
+		@size = size
+		@first_second = true
+		@grid = grid_gem(size)
+		@layer = size_s.inject([]) {|a| a << Array.new(size,"*")}
+		@inputs_pool = size_s.reduce([]) {|a,i| a << i}
+		# easy to pick
+		@pick_map = size_d.reduce([]) {|a,i| a << i+1}
+		@pool_map = size_d.reduce({}) do |hash, num|
+
+			temp1 = num % size
+			temp2 = num / size
+
+			hash[num+1] = [temp2,temp1]
+
+			hash
+
+		end
+	end
+
+	def pick_map_draw
+		# play string
+		print @pick_map.reduce([]) {|a,i| i % @size == 0 ? a << "#{"%2s"}\n" % i : a << "#{"%2s" % i},"; a}.join("")
 	end
 
 	def color_me(num)
@@ -35,6 +57,42 @@ class MatchGame
 		return re_num.underline
 	end
 
+
+	def draw
+		#puts @layer.map {|a| a.join(",")}
+		puts "\e[H\e[2J"
+
+		puts @layer.map {|a| a.reduce([]) {|a,i| a<< color_me(i)}.join(",")}
+		puts "\n"
+
+		pick_map_draw
+		puts "\n"
+
+	
+	end
+
+	def input_get2
+
+		temp = ""
+		
+		while not (@pick_map.include?(temp)) do
+			@first_second ? (print "first card: ") : (print "second card: ")
+			temp = gets.chomp
+			temp = temp.to_i
+		end
+
+		x,y = @pool_map.fetch(temp)
+
+		if @layer[x][y] == "*"
+			@first_second = !@first_second
+			return x,y 
+		else
+			puts "Opps!Pick Again!"
+			input_get2
+		end
+
+	end
+
 	def input_get(x,y)
 		
 		temp = ""
@@ -52,21 +110,15 @@ class MatchGame
 
 	end
 
-	def draw
-		#puts @layer.map {|a| a.join(",")}
-		puts "\e[H\e[2J"
-		
-		puts @layer.map {|a| a.reduce([]) {|a,i| a<< color_me(i)}.join(",")}
-		puts "\n"
-	
-	end
-
 	def pick
 
-		x1,y1 = input_get("x1","y1")
-		x2,y2 = input_get("x2","y2")
+		#x1,y1 = input_get("x1","y1")
+		x1,y1 = input_get2
+		#x2,y2 = input_get("x2","y2")
+		x2,y2 = input_get2
 		
-		x2,y2 = input_get("x2","y2") until [x1,y1] != [x2,y2]
+		#x2,y2 = input_get("x2","y2") until [x1,y1] != [x2,y2]
+		(@first_second = !@first_second ; x2,y2 = input_get2 ) until [x1,y1] != [x2,y2]
 
 
 		@layer[x1][y1],@layer[x2][y2]= @grid[x1][y1],@grid[x2][y2]
