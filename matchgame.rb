@@ -1,9 +1,8 @@
 require 'colorize'
 
 class MatchGame
-
+  
 	def initialize(size)
-		
 		#refactor
 		size_s = size.times
 		size_d = (size*size).times
@@ -19,11 +18,9 @@ class MatchGame
 
 			temp1 = num % size
 			temp2 = num / size
-
 			hash[num+1] = [temp2,temp1]
 
 			hash
-
 		end
 	end
 
@@ -61,18 +58,16 @@ class MatchGame
 	def draw
 		#puts @layer.map {|a| a.join(",")}
 		puts "\e[H\e[2J"
-
+		
 		puts @layer.map {|a| a.reduce([]) {|a,i| a<< color_me(i)}.join(",")}
 		puts "\n"
 
 		pick_map_draw
 		puts "\n"
-
-	
 	end
 
 	def input_get2
-
+	  
 		temp = ""
 		
 		while not (@pick_map.include?(temp)) do
@@ -90,11 +85,9 @@ class MatchGame
 			puts "Opps!Pick Again!"
 			input_get2
 		end
-
 	end
 
 	def input_get(x,y)
-		
 		temp = ""
 		
 		while not (@inputs_pool.include?(temp[0])&&@inputs_pool.include?(temp[1])) do
@@ -107,19 +100,15 @@ class MatchGame
 		
 		puts "Opps!Pick Again!"
 		input_get(x,y)
-
 	end
 
 	def pick
-
 		#x1,y1 = input_get("x1","y1")
 		x1,y1 = input_get2
 		#x2,y2 = input_get("x2","y2")
 		x2,y2 = input_get2
-		
 		#x2,y2 = input_get("x2","y2") until [x1,y1] != [x2,y2]
 		(@first_second = !@first_second ; x2,y2 = input_get2 ) until [x1,y1] != [x2,y2]
-
 
 		@layer[x1][y1],@layer[x2][y2]= @grid[x1][y1],@grid[x2][y2]
 
@@ -131,8 +120,6 @@ class MatchGame
 			@layer[x1][y1] = @layer[x2][y2] = "*"
 			return false
 		end
-		
-
 	end
 
 	def check_for_stop
@@ -140,12 +127,9 @@ class MatchGame
 	end
 
 	def answer
-
 		puts "\e[H\e[2J"
-
 		puts @grid.map {|a| a.reduce([]) {|a,i| a<< color_me(i)}.join(",")}
 		puts "\n"
-
 	end
 
 	private
@@ -168,7 +152,6 @@ class MatchGame
 				a
 			end
 		end
-		
 	end
 
 	def pool_check(n)
