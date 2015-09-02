@@ -1,3 +1,5 @@
+# Code by Yen
+
 require 'colorize'
 
 class MatchGame
