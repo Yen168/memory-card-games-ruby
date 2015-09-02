@@ -1,5 +1,3 @@
-# Code by Yen
-
 require 'colorize'
 
 class MatchGame
@@ -56,18 +54,18 @@ class MatchGame
 
 	def draw
 		#puts @layer.map {|a| a.join(",")}
+		puts "\e[H\e[2J"
+		
 		puts @layer.map {|a| a.reduce([]) {|a,i| a<< color_me(i)}.join(",")}
 		puts "\n"
 	
-		
-
 	end
 
 	def pick
 
 		x1,y1 = input_get("x1","y1")
 		x2,y2 = input_get("x2","y2")
-
+		
 		x2,y2 = input_get("x2","y2") until [x1,y1] != [x2,y2]
 
 
@@ -126,4 +124,3 @@ class MatchGame
 	end
 
 end
-
