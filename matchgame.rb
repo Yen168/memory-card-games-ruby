@@ -1,4 +1,4 @@
-# Code by Yen
+# Code by Yen.
 # NYC
 
 require 'colorize'
