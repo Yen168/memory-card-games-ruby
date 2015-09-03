@@ -1,3 +1,6 @@
+# Code by Yen
+# NYC
+
 require 'colorize'
 
 class MatchGame
