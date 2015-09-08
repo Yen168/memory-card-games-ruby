@@ -1,4 +1,4 @@
-# memory-card-games-ruby
+# Memory Card Games - Ruby version
 
 
 Test:
