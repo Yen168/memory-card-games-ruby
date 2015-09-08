@@ -22,3 +22,7 @@ end
 #end
 # code by Yen
 ```
+
+# JQuery version
+
+[Live Demo](http://yen168.github.io/memory-card-games-ruby/match-game-jquery/matchGame.html)
